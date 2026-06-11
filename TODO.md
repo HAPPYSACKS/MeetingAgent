@@ -29,18 +29,18 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 2. Core Domain Model
 
-- [ ] Define `MeetingSession`.
-- [ ] Include meeting identity, organizer identity, title, scheduled start, scheduled end, status, and Teams meeting context identifiers.
-- [ ] Define `AgendaPlan`.
-- [ ] Include meeting id, objective, total duration, agenda sections, version, approval state, approved by, and approved timestamp.
-- [ ] Define `AgendaSection`.
-- [ ] Include title, purpose, suggested duration, order, and optional facilitation notes.
-- [ ] Define `FacilitatorAlert`.
-- [ ] Include meeting id, alert type, severity, timestamp, source, evidence snippet, recommendation, dismissed state, and resolved state.
-- [ ] Define `MeetingRecap`.
-- [ ] Include meeting id, pacing summary, topic drift moments, confusion moments, action items, and generated timestamp.
-- [ ] Define enums for meeting status, alert type, alert severity, alert source, transcript availability, and recap status.
-- [ ] Add validation rules for required fields, meeting duration bounds, agenda section durations, and host ownership.
+- [x] Define `MeetingSession`.
+- [x] Include meeting identity, organizer identity, title, scheduled start, scheduled end, status, and Teams meeting context identifiers.
+- [x] Define `AgendaPlan`.
+- [x] Include meeting id, objective, total duration, agenda sections, version, approval state, approved by, and approved timestamp.
+- [x] Define `AgendaSection`.
+- [x] Include title, purpose, suggested duration, order, and optional facilitation notes.
+- [x] Define `FacilitatorAlert`.
+- [x] Include meeting id, alert type, severity, timestamp, source, evidence snippet, recommendation, dismissed state, and resolved state.
+- [x] Define `MeetingRecap`.
+- [x] Include meeting id, pacing summary, topic drift moments, confusion moments, action items, and generated timestamp.
+- [x] Define enums for meeting status, alert type, alert severity, alert source, transcript availability, and recap status.
+- [x] Add validation rules for required fields, meeting duration bounds, agenda section durations, and host ownership.
 
 ## 3. Storage And Data Retention
 
