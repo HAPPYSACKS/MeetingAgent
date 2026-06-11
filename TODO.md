@@ -4,8 +4,8 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 0. Foundation Decisions
 
-- [ ] Confirm the technical stack for the first implementation.
-- [ ] Use ASP.NET Core and .NET for the custom app and backend.
+- [x] Confirm the technical stack for the first implementation.
+- [x] Use ASP.NET Core and .NET for the custom app and backend.
 - [ ] Use a Teams meeting app as the primary in-meeting surface.
 - [ ] Use Copilot Studio as the companion conversational agent.
 - [ ] Use MCP tools to let Copilot Studio call custom backend capabilities.
@@ -16,16 +16,16 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 1. Repository And Project Setup
 
-- [ ] Create the solution structure.
-- [ ] Add an ASP.NET Core web app for the Teams side panel and host setup experience.
-- [ ] Add a backend API project or API area for meeting, agenda, transcript, and recap endpoints.
-- [ ] Add a shared domain/contracts project if the solution grows beyond one web project.
-- [ ] Add a test project for unit tests.
-- [ ] Add an integration test project for API and workflow tests.
-- [ ] Add a README with setup, local run, Teams testing, and configuration instructions.
-- [ ] Add `.gitignore` rules for .NET, Teams Toolkit artifacts, local secrets, build output, and IDE files.
-- [ ] Add basic CI steps for restore, build, test, and formatting checks.
-- [ ] Add app configuration files for local development and environment-specific settings.
+- [x] Create the solution structure.
+- [x] Add an ASP.NET Core web app for the Teams side panel and host setup experience.
+- [x] Add a backend API project or API area for meeting, agenda, transcript, and recap endpoints.
+- [x] Add a shared domain/contracts project if the solution grows beyond one web project.
+- [x] Add a test project for unit tests.
+- [x] Add an integration test project for API and workflow tests.
+- [x] Add a README with setup, local run, Teams testing, and configuration instructions.
+- [x] Add `.gitignore` rules for .NET, Teams Toolkit artifacts, local secrets, build output, and IDE files.
+- [x] Add basic CI steps for restore, build, test, and formatting checks.
+- [x] Add app configuration files for local development and environment-specific settings.
 
 ## 2. Core Domain Model
 

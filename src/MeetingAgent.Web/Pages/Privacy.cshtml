@@ -1,0 +1,33 @@
+@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy and retention";
+}
+
+<section class="content-panel">
+    <div class="panel-header">
+        <p class="eyebrow">Governance</p>
+        <h1>@ViewData["Title"]</h1>
+        <p>Phase 1 defaults to minimal retention and keeps transcript-derived processing artifacts shorter-lived than host-facing recap data.</p>
+    </div>
+
+    <div class="setup-grid">
+        <div class="setup-card">
+            <h2>Stored by default</h2>
+            <ul class="status-list">
+                <li>Approved agenda versions</li>
+                <li>Meeting metadata</li>
+                <li>Facilitator alerts</li>
+                <li>Host recap artifacts</li>
+            </ul>
+        </div>
+        <div class="setup-card">
+            <h2>Handled carefully</h2>
+            <ul class="status-list">
+                <li>Raw transcript text as transient input</li>
+                <li>No meeting-participant bot behavior in Phase 1</li>
+                <li>Authorization and retention enforced in code and services</li>
+            </ul>
+        </div>
+    </div>
+</section>

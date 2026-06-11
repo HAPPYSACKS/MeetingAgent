@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MeetingAgent.Application/MeetingAgent.Application.csproj" />
+    <Project Path="src/MeetingAgent.Domain/MeetingAgent.Domain.csproj" />
+    <Project Path="src/MeetingAgent.Infrastructure/MeetingAgent.Infrastructure.csproj" />
+    <Project Path="src/MeetingAgent.Mcp/MeetingAgent.Mcp.csproj" />
+    <Project Path="src/MeetingAgent.Web/MeetingAgent.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MeetingAgent.IntegrationTests/MeetingAgent.IntegrationTests.csproj" />
+    <Project Path="tests/MeetingAgent.UnitTests/MeetingAgent.UnitTests.csproj" />
+  </Folder>
+</Solution>

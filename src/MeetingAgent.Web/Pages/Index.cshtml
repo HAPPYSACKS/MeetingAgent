@@ -1,0 +1,43 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "MeetingAgent";
+}
+
+<section class="hero-panel">
+    <div class="hero-copy">
+        <p class="eyebrow">Phase 1 Internal Pilot</p>
+        <h1>Host-private meeting guidance for Microsoft Teams.</h1>
+        <p class="hero-text">
+            MeetingAgent helps the organizer prepare an agenda, track pacing during the meeting,
+            and generate a concise recap after the transcript is available.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-agent-primary" asp-page="/Setup">Open host setup</a>
+            <a class="btn btn-agent-secondary" href="/api/status">View API status</a>
+        </div>
+    </div>
+    <aside class="hero-card">
+        <h2>Current shape</h2>
+        <ul class="status-list">
+            <li>Teams side panel web app</li>
+            <li>Companion MCP host for tool calls</li>
+            <li>Transcript-first recap workflow</li>
+        </ul>
+    </aside>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <h2>Before the meeting</h2>
+        <p>Capture the goal, duration, and host notes, then draft an agenda the organizer can edit and approve.</p>
+    </article>
+    <article class="feature-card">
+        <h2>During the meeting</h2>
+        <p>Show pacing status, agenda context, and private host interventions without acting like a participant.</p>
+    </article>
+    <article class="feature-card">
+        <h2>After the meeting</h2>
+        <p>Analyze transcript artifacts when available and produce a recap that highlights timing, drift, and confusion.</p>
+    </article>
+</section>
