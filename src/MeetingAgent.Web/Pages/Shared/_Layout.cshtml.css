@@ -1,0 +1,40 @@
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
+  padding-top: 1.25rem;
+}
+
+.agent-nav {
+  background: rgba(9, 28, 37, 0.78);
+  border: 1px solid rgba(189, 228, 218, 0.18);
+  border-radius: 1.25rem;
+  box-shadow: 0 18px 48px rgba(7, 21, 29, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.agent-nav .navbar-brand {
+  color: #f2fffb;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.agent-nav .nav-link {
+  color: rgba(242, 255, 251, 0.82);
+}
+
+.agent-nav .nav-link:hover,
+.agent-nav .nav-link:focus {
+  color: #ffffff;
+}
+
+.footer {
+  padding: 0 0 1.5rem;
+}
+
+.footer .container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}

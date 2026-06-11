@@ -1,0 +1,33 @@
+@page
+@model MeetingAgent.Web.Pages.SetupModel
+@{
+    ViewData["Title"] = "Host Setup";
+}
+
+<section class="content-panel">
+    <div class="panel-header">
+        <p class="eyebrow">Pre-Meeting</p>
+        <h1>Host setup scaffold</h1>
+        <p>This starter page marks the workflow surface where the organizer will define the goal, duration, notes, and agenda draft.</p>
+    </div>
+
+    <div class="setup-grid">
+        <div class="setup-card">
+            <h2>Planned inputs</h2>
+            <ul class="status-list">
+                <li>Meeting goal</li>
+                <li>Meeting duration</li>
+                <li>Optional host notes</li>
+                <li>Teams meeting context</li>
+            </ul>
+        </div>
+        <div class="setup-card">
+            <h2>Next UI steps</h2>
+            <ul class="status-list">
+                <li>Generate draft agenda</li>
+                <li>Edit agenda sections and durations</li>
+                <li>Approve the plan for in-meeting pacing</li>
+            </ul>
+        </div>
+    </div>
+</section>
