@@ -83,8 +83,14 @@ Only the Web host registers the in-process retention cleanup worker. The MCP hos
 
 ## Teams testing
 
-Teams packaging, app manifest work, and tunnel setup are not configured yet. The next repo tasks are:
+The repository includes a Teams meeting app package template under `teams/appPackage/` and a packaging script for local Microsoft Teams testing through a Microsoft dev tunnel.
 
-1. Add the Teams app package and manifest.
-2. Decide the local callback strategy (`dev tunnels`, `ngrok`, or equivalent).
-3. Wire Teams meeting context, authentication, and organizer authorization.
+Start the web host with the HTTPS launch profile:
+
+```powershell
+dotnet run --project src/MeetingAgent.Web --launch-profile https
+```
+
+Use `teams/README.md` for the full dev tunnel, package generation, organizer install, and tenant approval flow.
+
+Authentication, Teams SSO, meeting context token validation, organizer authorization, and Graph transcript retrieval are tracked as later implementation slices.

@@ -33,6 +33,15 @@ resource sqlServer 'Microsoft.Sql/servers@2024-05-01-preview' = {
   }
 }
 
+resource allowAzureServicesFirewallRule 'Microsoft.Sql/servers/firewallRules@2024-05-01-preview' = {
+  parent: sqlServer
+  name: 'AllowAzureServices'
+  properties: {
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '0.0.0.0'
+  }
+}
+
 resource sqlDatabase 'Microsoft.Sql/servers/databases@2025-02-01-preview' = {
   parent: sqlServer
   name: sqlDatabaseName

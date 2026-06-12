@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.28",
+  "version": "0.1.0",
+  "id": "{{TeamsAppId}}",
+  "developer": {
+    "name": "MeetingAgent",
+    "websiteUrl": "{{BaseUrl}}",
+    "privacyUrl": "{{BaseUrl}}/Privacy",
+    "termsOfUseUrl": "{{BaseUrl}}/Terms"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "MeetingAgent",
+    "full": "MeetingAgent Facilitator"
+  },
+  "description": {
+    "short": "Private meeting facilitation for hosts.",
+    "full": "A host-private Teams meeting facilitator for agenda setup, live pacing support, and post-meeting recap generation."
+  },
+  "accentColor": "#0D7A6F",
+  "configurableTabs": [
+    {
+      "configurationUrl": "{{BaseUrl}}/Teams/Configure",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "groupchat"
+      ],
+      "context": [
+        "meetingDetailsTab",
+        "meetingSidePanel"
+      ]
+    }
+  ],
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        {
+          "name": "OnlineMeeting.ReadBasic.Chat",
+          "type": "Application"
+        },
+        {
+          "name": "OnlineMeetingTranscript.Read.Chat",
+          "type": "Application"
+        }
+      ]
+    }
+  },
+  "webApplicationInfo": {
+    "id": "{{EntraClientId}}",
+    "resource": "api://{{DevTunnelHost}}/{{EntraClientId}}"
+  },
+  "validDomains": [
+    "{{DevTunnelHost}}",
+    "res.cdn.office.net"
+  ]
+}
