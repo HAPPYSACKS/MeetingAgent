@@ -24,7 +24,7 @@ public sealed class InfrastructureConfigurationTests
             })
             .Build();
 
-        MeetingAgentConnectionString.Resolve(configuration).Should().Be(connectionString);
+        MeetingAgentConnectionString.Resolve(configuration, isDevelopment: false).Should().Be(connectionString);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public sealed class InfrastructureConfigurationTests
             })
             .Build();
 
-        var resolved = MeetingAgentConnectionString.Resolve(configuration);
+        var resolved = MeetingAgentConnectionString.Resolve(configuration, isDevelopment: false);
         var builder = new SqlConnectionStringBuilder(resolved);
 
         builder.DataSource.Should().Be("meetingagent.database.windows.net");
@@ -52,8 +52,19 @@ public sealed class InfrastructureConfigurationTests
     {
         var configuration = new ConfigurationBuilder().Build();
 
-        MeetingAgentConnectionString.Resolve(configuration)
+        MeetingAgentConnectionString.Resolve(configuration, isDevelopment: true)
             .Should().Be(MeetingAgentConnectionString.DevelopmentLocalDb);
+    }
+
+    [Fact]
+    public void MeetingAgentConnectionString_ThrowsWhenDatabaseConfigIsMissingOutsideDevelopment()
+    {
+        var configuration = new ConfigurationBuilder().Build();
+
+        var act = () => MeetingAgentConnectionString.Resolve(configuration, isDevelopment: false);
+
+        act.Should().Throw<InvalidOperationException>()
+            .WithMessage("*database configuration is missing*");
     }
 
     [Fact]

@@ -5,6 +5,7 @@ using MeetingAgent.Infrastructure.Persistence.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace MeetingAgent.Infrastructure.DependencyInjection;
 
@@ -30,8 +31,9 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddDbContext<MeetingAgentDbContext>((serviceProvider, options) =>
         {
             var sqlOptions = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<SqlOptions>>().Value;
+            var hostEnvironment = serviceProvider.GetRequiredService<IHostEnvironment>();
             options.UseSqlServer(
-                MeetingAgentConnectionString.Resolve(configuration),
+                MeetingAgentConnectionString.Resolve(configuration, hostEnvironment.IsDevelopment()),
                 sqlServerOptions => sqlServerOptions.CommandTimeout(sqlOptions.CommandTimeoutSeconds));
         });
 

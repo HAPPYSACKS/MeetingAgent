@@ -10,7 +10,7 @@ public static class MeetingAgentConnectionString
     public const string DevelopmentLocalDb =
         "Server=(localdb)\\MSSQLLocalDB;Database=MeetingAgent;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True";
 
-    public static string Resolve(IConfiguration configuration)
+    public static string Resolve(IConfiguration configuration, bool isDevelopment)
     {
         var configuredConnectionString = configuration.GetConnectionString(Name);
         if (!string.IsNullOrWhiteSpace(configuredConnectionString))
@@ -38,6 +38,12 @@ public static class MeetingAgentConnectionString
             return builder.ConnectionString;
         }
 
-        return DevelopmentLocalDb;
+        if (isDevelopment)
+        {
+            return DevelopmentLocalDb;
+        }
+
+        throw new InvalidOperationException(
+            "MeetingAgent database configuration is missing. Configure ConnectionStrings:MeetingAgent or Sql:ServerName and Sql:DatabaseName.");
     }
 }
