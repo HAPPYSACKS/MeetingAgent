@@ -1,0 +1,32 @@
+@page
+@model MeetingAgent.Web.Pages.TermsModel
+@{
+    ViewData["Title"] = "Terms";
+}
+
+<section class="content-panel">
+    <div class="panel-header">
+        <p class="eyebrow">Terms</p>
+        <h1>Internal pilot terms</h1>
+        <p>MeetingAgent is an internal pilot tool for host-private meeting facilitation. Use it only with approved tenant accounts and pilot meetings.</p>
+    </div>
+
+    <div class="setup-grid">
+        <div class="setup-card">
+            <h2>Responsible use</h2>
+            <ul class="status-list">
+                <li>Hosts remain responsible for meeting decisions and participant communication.</li>
+                <li>Do not enter sensitive data beyond the approved pilot scope.</li>
+                <li>Follow tenant policies for Teams apps, transcripts, and Microsoft Graph access.</li>
+            </ul>
+        </div>
+        <div class="setup-card">
+            <h2>Data handling</h2>
+            <ul class="status-list">
+                <li>Approved agendas, alerts, and recaps may be stored for the configured retention window.</li>
+                <li>Raw transcript text is intended for transient processing only.</li>
+                <li>Transcript-backed insights degrade gracefully when transcription is unavailable.</li>
+            </ul>
+        </div>
+    </div>
+</section>

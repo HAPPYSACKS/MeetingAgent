@@ -1,0 +1,50 @@
+@page
+@model MeetingAgent.Web.Pages.Teams.ConfigureModel
+@{
+    ViewData["Title"] = "Configure MeetingAgent";
+}
+
+<section class="content-panel teams-config-panel">
+    <div class="panel-header">
+        <p class="eyebrow">Teams Meeting App</p>
+        <h1>Configure MeetingAgent</h1>
+        <p>MeetingAgent is ready to add as a private host facilitation tab for this meeting.</p>
+    </div>
+
+    <div id="teams-config-status" class="teams-config-status" role="status">
+        Preparing the meeting tab...
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://res.cdn.office.net/teams-js/2.34.0/js/MicrosoftTeams.min.js"></script>
+    <script>
+        (async () => {
+            const statusElement = document.getElementById("teams-config-status");
+            const setStatus = (message) => {
+                statusElement.textContent = message;
+            };
+
+            try {
+                await microsoftTeams.app.initialize();
+
+                microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                    microsoftTeams.pages.config.setConfig({
+                        entityId: "meetingagent-facilitator",
+                        suggestedDisplayName: "MeetingAgent",
+                        contentUrl: `${window.location.origin}/Setup`,
+                        websiteUrl: `${window.location.origin}/Setup`
+                    });
+
+                    saveEvent.notifySuccess();
+                });
+
+                microsoftTeams.pages.config.setValidityState(true);
+                setStatus("Select Save to add MeetingAgent to this meeting.");
+            } catch (error) {
+                console.error("Teams configuration failed.", error);
+                setStatus("Open this page inside Microsoft Teams to configure the meeting tab.");
+            }
+        })();
+    </script>
+}

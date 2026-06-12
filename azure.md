@@ -135,6 +135,9 @@ document as the environment evolves.
 - Minimum capacity: 0.5 vCore.
 - Backup storage redundancy: local.
 - SQL Server public network access: enabled for dev.
+- SQL Server firewall allows Azure services through the standard `0.0.0.0`
+  rule so deployed App Service and Functions hosts can reach the database after
+  managed identity database grants are created.
 - SQL auth: enabled as a bootstrap/admin path.
 - Microsoft Entra administrator: configured, with Microsoft Entra-only authentication disabled for dev.
 - Auditing: enabled with Azure Monitor as the target.

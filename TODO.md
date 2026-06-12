@@ -57,15 +57,15 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 4. Teams App Package
 
-- [ ] Create the Teams app manifest.
-- [ ] Configure the app as a Teams meeting app.
-- [ ] Configure the meeting side panel capability.
-- [ ] Configure the pre-meeting or meeting details setup surface if supported by the selected Teams app model.
-- [ ] Configure app icons, name, description, and developer metadata.
-- [ ] Configure valid domains for the hosted app.
-- [ ] Configure required Teams and Graph permissions.
-- [ ] Document the organizer installation flow.
-- [ ] Document IT preinstall and tenant approval requirements.
+- [x] Create the Teams app manifest.
+- [x] Configure the app as a Teams meeting app.
+- [x] Configure the meeting side panel capability.
+- [x] Configure the pre-meeting or meeting details setup surface if supported by the selected Teams app model.
+- [x] Configure app icons, name, description, and developer metadata.
+- [x] Configure valid domains for the hosted app.
+- [x] Configure required Teams and Graph permissions.
+- [x] Document the organizer installation flow.
+- [x] Document IT preinstall and tenant approval requirements.
 - [ ] Test adding the app to a meeting before the meeting using `Add a tab (+)`.
 - [ ] Test adding or opening the app during a meeting using `More > Add an app` or the meeting toolbar.
 - [ ] Confirm the app opens as the intended meeting side panel.
