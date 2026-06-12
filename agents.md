@@ -10,6 +10,7 @@ MeetingAgent is a host-private Microsoft Teams meeting facilitator with a compan
 
 - Read `PLAN.md` for the product roadmap, phase boundaries, host workflow, architecture direction, and product scope.
 - Read `TODO.md` for the implementation checklist, work breakdown, acceptance criteria, and phase-specific task tracking.
+- Read `azure.md` for Azure environment, resource, SKU, Bicep, and deployment decisions.
 - Use this file for the high-level map of repo intent, system parts, and tool boundaries.
 
 ## Product Shape
@@ -82,4 +83,6 @@ These are the backend capabilities the Copilot experience uses through tools:
 
 - Use `PLAN.md` when you need product intent, workflow context, phase definitions, or architecture framing.
 - Use `TODO.md` when you need concrete implementation tasks, sequencing clues, or acceptance targets.
+- Use `azure.md` when you need cloud resource, SKU, Bicep, or deployment environment decisions.
+- Use `agents.md` when you need questions about tools, technologies, or need a reference for any decisions made in the project. 
 - Keep changes aligned with the host-private, Teams-native, transcript-first Phase 1 scope.
