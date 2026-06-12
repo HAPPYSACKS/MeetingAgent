@@ -134,28 +134,34 @@ Phase 2 should reuse the same side-panel experience, alert model, agenda model, 
 
 ### Phase 3: Meeting Operating System
 
-Phase 3 should expand the product from single-meeting assistance to recurring meeting quality improvement.
+Phase 3 should expand the product from single-meeting assistance to recurring meeting quality improvement. It should treat each meeting as one instance in a larger operating rhythm, especially for recurring meetings and team ceremonies where patterns emerge over time.
 
-Possible capabilities:
+The first Phase 3 slice should focus on recurring meeting history and derived analytics, not broader automation. A `MeetingSeries` concept should group related `MeetingSession` records so the system can compare outcomes across occurrences without storing raw transcript text long term.
 
-- Recurring meeting analytics.
-- Repeated overrun detection.
-- Common confusion theme tracking.
-- Agenda quality feedback.
-- Team-specific facilitation styles.
-- Admin-configurable policies.
-- Optional role-based experiences for hosts, presenters, and administrators.
+Core Phase 3 product concepts:
 
-Minimal retention should remain the default unless explicit governance or analytics requirements justify broader storage.
+- Meeting series history: link meeting instances that belong to the same recurring meeting or team ritual.
+- Per-meeting analytics metrics: store derived measures such as scheduled duration, actual duration when known, overrun amount, agenda fit, pacing risk count, drift count, confusion signal count, transcript availability, and recap status.
+- Recurring overrun analytics: identify series that repeatedly exceed the scheduled end time or compress the final agenda sections.
+- Recurring confusion theme analytics: roll up derived recap labels, concise evidence snippets, and repeated clarification patterns across meetings.
+- Agenda quality feedback: compare planned agenda duration, actual pacing pressure, skipped sections, and recap outcomes to suggest better future agendas.
+- Meeting quality reporting: show trend lines and summary reports for hosts and administrators using derived metrics and rollups.
+
+Later Phase 3 capabilities can add team-specific facilitation preferences, admin-configurable policies, optional role-based experiences for hosts, presenters, and administrators, and configurable analytics retention policies.
+
+Storage for Phase 3 should use a relational EF Core model with derived rollups. Local development and test environments should use SQLite, while the schema should remain portable enough for a later Azure SQL deployment. Minimal retention should remain the default unless explicit governance or analytics requirements justify broader storage.
 
 ## Key Interfaces And Product Contracts
 
 ### Core Product Concepts
 
 - MeetingSession: the identity, schedule, organizer, and status of a meeting instance.
+- MeetingSeries: the recurring meeting or team ritual that groups related meeting instances for trend analysis.
 - AgendaPlan: the approved meeting goal, structure, timing plan, and version.
 - FacilitatorAlert: a private host-facing issue with type, severity, evidence, and suggested response.
 - MeetingRecap: the post-meeting output summarizing what helped or hindered the meeting.
+- MeetingAnalyticsMetric: derived per-meeting measures used for recurring history, overrun detection, agenda quality feedback, and reporting.
+- MeetingAnalyticsRollup: derived series-level or team-level trends built from meeting metrics, recap labels, and retained evidence snippets.
 
 ### AI Responsibilities
 
@@ -207,6 +213,7 @@ The system should use minimal retention by default.
 Recommended defaults:
 
 - Persist approved agendas, meeting metadata, facilitator alerts, and recap artifacts.
+- Persist derived analytics metrics, recurring series links, concise evidence snippets, labels, and rollups when Phase 3 analytics are enabled.
 - Treat raw transcript text as transient processing input where possible.
 - Avoid storing raw transcript data longer than necessary.
 - If transcription is unavailable or disabled, continue supporting agenda planning and pacing while marking transcript-based insights as unavailable.
@@ -242,4 +249,3 @@ Recommended defaults:
 - The initial product uses minimal retention.
 - The long-term vision includes a true live facilitator.
 - The first practical architecture is Teams-native, transcript-first, and host-private.
-

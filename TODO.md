@@ -262,13 +262,20 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 19. Phase 3 TODO: Meeting Operating System
 
-- [ ] Add recurring meeting history.
-- [ ] Add repeated overrun analytics.
-- [ ] Add recurring confusion theme analytics.
-- [ ] Add agenda quality feedback across meetings.
-- [ ] Add team-specific facilitation preferences.
-- [ ] Add admin-configurable policies.
-- [ ] Add role-based views for hosts, presenters, and administrators.
-- [ ] Add configurable analytics retention policies.
-- [ ] Add reporting for meeting quality trends.
+- [ ] Document the Phase 3 storage model as relational EF Core with SQLite for local development and tests.
+- [ ] Keep the Phase 3 schema portable for a later Azure SQL deployment.
+- [ ] Define `MeetingSeries` as the recurring meeting or team ritual that groups related `MeetingSession` records.
+- [ ] Design recurring meeting history using durable meeting metadata, approved agendas, alerts, recaps, and derived analytics.
+- [ ] Define per-meeting analytics metrics for scheduled duration, actual duration when known, overrun amount, pacing risk count, drift count, confusion signal count, agenda fit, transcript availability, and recap status.
+- [ ] Ensure raw transcript text remains transient processing input and is not stored as durable Phase 3 analytics data.
+- [ ] Store only derived transcript-backed analytics such as concise evidence snippets, labels, insight categories, action items, and recap summaries.
+- [ ] Add derived rollups for recurring meeting series and team-level reporting.
+- [ ] Add repeated overrun analytics across meetings in the same series.
+- [ ] Add recurring confusion theme analytics across retained recap labels and evidence snippets.
+- [ ] Add agenda quality feedback across meetings by comparing planned agendas, pacing pressure, skipped or compressed sections, and recap outcomes.
+- [ ] Add reporting for meeting quality trends using derived metrics and rollups.
+- [ ] Add configurable analytics retention policies for per-meeting metrics, evidence snippets, and rollup history.
+- [ ] Add team-specific facilitation preferences after the first recurring analytics slice is stable.
+- [ ] Add admin-configurable policies after analytics retention and reporting requirements are clear.
+- [ ] Add role-based views for hosts, presenters, and administrators after the underlying policy model exists.
 
