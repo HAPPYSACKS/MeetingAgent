@@ -44,16 +44,16 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 3. Storage And Data Retention
 
-- [ ] Choose and configure the Phase 1 database.
-- [ ] Create persistence for meeting sessions.
-- [ ] Create persistence for approved agenda plans and agenda versions.
-- [ ] Create persistence for facilitator alerts.
-- [ ] Create persistence for meeting recaps.
-- [ ] Add a way to mark transcript-derived insights unavailable when transcription is disabled.
-- [ ] Implement transcript text as transient processing input rather than durable long-term data.
-- [ ] Add retention settings for raw transcript processing artifacts.
-- [ ] Add retention settings for recap artifacts and meeting metadata.
-- [ ] Add a background cleanup job for expired transcript artifacts and old meeting data.
+- [x] Choose and configure the Phase 1 database.
+- [x] Create persistence for meeting sessions.
+- [x] Create persistence for approved agenda plans and agenda versions.
+- [x] Create persistence for facilitator alerts.
+- [x] Create persistence for meeting recaps.
+- [x] Add a way to mark transcript-derived insights unavailable when transcription is disabled.
+- [x] Implement transcript text as transient processing input rather than durable long-term data.
+- [x] Add retention settings for raw transcript processing artifacts.
+- [x] Add retention settings for recap artifacts and meeting metadata.
+- [x] Add a background cleanup job for expired transcript artifacts and old meeting data.
 
 ## 4. Teams App Package
 

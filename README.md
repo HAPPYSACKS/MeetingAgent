@@ -34,6 +34,15 @@ dotnet build MeetingAgent.slnx --no-restore
 dotnet test MeetingAgent.slnx --no-build
 ```
 
+The default development database is SQL Server LocalDB:
+
+```powershell
+sqllocaldb info
+dotnet ef database update `
+  --project src/MeetingAgent.Infrastructure `
+  --startup-project src/MeetingAgent.Web
+```
+
 Run the Teams-facing web host:
 
 ```powershell
@@ -50,7 +59,27 @@ dotnet run --project src/MeetingAgent.Mcp
 
 - The web project uses Razor Pages for the page-centered host workflow and a small `/api` surface for meeting status.
 - The MCP host currently exposes placeholder tool metadata and a health endpoint.
+- Durable product state uses EF Core SQL Server migrations. Local development uses `MSSQLLocalDB`; deployed environments use Azure SQL through `Sql:ServerName` and `Sql:DatabaseName`.
 - Retention defaults live in configuration and are intentionally conservative for the Phase 1 pilot.
+- Raw transcript text is not stored in SQL. Transcript text should stay in transient processing or blob artifacts governed by retention, while SQL stores only metadata and derived recap/alert information.
+
+## Storage configuration
+
+The storage layer resolves configuration in this order:
+
+1. `ConnectionStrings:MeetingAgent`
+2. `Sql:ServerName` plus `Sql:DatabaseName`
+3. Development fallback: `(localdb)\MSSQLLocalDB`
+
+Retention settings:
+
+- `MeetingAgent:Retention:TranscriptArtifactDays`
+- `MeetingAgent:Retention:RecapArtifactDays`
+- `MeetingAgent:Retention:MeetingMetadataDays`
+- `MeetingAgent:RetentionCleanup:Enabled`
+- `MeetingAgent:RetentionCleanup:IntervalMinutes`
+
+Only the Web host registers the in-process retention cleanup worker. The MCP host can use storage but does not run the scheduled cleanup loop.
 
 ## Teams testing
 

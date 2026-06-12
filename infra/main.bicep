@@ -207,12 +207,16 @@ var appSettings = {
   MeetingAgent__Retention__TranscriptArtifactDays: '3'
   MeetingAgent__Retention__RecapArtifactDays: '30'
   MeetingAgent__Retention__MeetingMetadataDays: '180'
+  MeetingAgent__RetentionCleanup__Enabled: 'true'
+  MeetingAgent__RetentionCleanup__IntervalMinutes: '1440'
   Storage__AccountName: storage.outputs.storageAccountName
   Storage__TranscriptQueueName: 'transcript-processing'
   Storage__RecapQueueName: 'recap-generation'
   Storage__GraphNotificationsQueueName: 'graph-notifications'
   Sql__ServerName: sql.outputs.sqlServerFullyQualifiedDomainName
   Sql__DatabaseName: sql.outputs.sqlDatabaseName
+  Sql__UseManagedIdentity: 'true'
+  Sql__CommandTimeoutSeconds: '30'
   AzureOpenAI__Endpoint: ai.?outputs.endpoint ?? ''
   AzureOpenAI__DeploymentName: deployAi && deployLatestChatModel ? aiPrimaryDeploymentName : ''
   AzureOpenAI__SecondaryDeploymentName: deployAi && deployReasoningModel ? aiSecondaryDeploymentName : ''
