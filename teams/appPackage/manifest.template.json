@@ -27,7 +27,7 @@
       "configurationUrl": "{{BaseUrl}}/Teams/Configure",
       "canUpdateConfiguration": true,
       "scopes": [
-        "groupchat"
+        "groupChat"
       ],
       "context": [
         "meetingDetailsTab",

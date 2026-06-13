@@ -85,6 +85,21 @@ Only the Web host registers the in-process retention cleanup worker. The MCP hos
 
 The repository includes a Teams meeting app package template under `teams/appPackage/` and a packaging script for local Microsoft Teams testing through a Microsoft dev tunnel.
 
+Before running `zip.ps1`, create a local `.env` file from the checked-in example and set the public dev tunnel URL:
+
+```powershell
+Copy-Item .env.example .env
+notepad .env
+```
+
+Minimum `.env` contents:
+
+```text
+MEETINGAGENT_TEAMS_BASE_URL=https://<your-dev-tunnel-host>
+```
+
+The `.env` file is ignored by git and should contain machine- or tenant-specific package values.
+
 Start the web host with the HTTPS launch profile:
 
 ```powershell
