@@ -13,6 +13,9 @@ param(
     [switch] $IncludePreviewAuth,
 
     [Parameter(Mandatory = $false)]
+    [switch] $IncludeRscPermissions,
+
+    [Parameter(Mandatory = $false)]
     [string] $OutputDirectory = "artifacts/teams"
 )
 
@@ -65,8 +68,11 @@ $manifest = $manifest.Replace("{{DevTunnelHost}}", $devTunnelHost)
 
 $manifestObject = $manifest | ConvertFrom-Json
 if (-not $IncludePreviewAuth) {
-    $manifestObject.PSObject.Properties.Remove("authorization")
     $manifestObject.PSObject.Properties.Remove("webApplicationInfo")
+}
+
+if (-not $IncludeRscPermissions) {
+    $manifestObject.PSObject.Properties.Remove("authorization")
 }
 
 $manifest = $manifestObject | ConvertTo-Json -Depth 32

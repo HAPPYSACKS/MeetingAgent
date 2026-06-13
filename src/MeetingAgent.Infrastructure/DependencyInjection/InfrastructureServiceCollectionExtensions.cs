@@ -1,7 +1,9 @@
+using MeetingAgent.Application.Security;
 using MeetingAgent.Application.Storage;
 using MeetingAgent.Infrastructure.Options;
 using MeetingAgent.Infrastructure.Persistence;
 using MeetingAgent.Infrastructure.Persistence.Repositories;
+using MeetingAgent.Infrastructure.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +45,7 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IMeetingRecapRepository, MeetingRecapRepository>();
         services.AddScoped<ITranscriptArtifactMetadataRepository, TranscriptArtifactMetadataRepository>();
         services.AddScoped<IRetentionCleanupService, RetentionCleanupService>();
+        services.AddSingleton<IAuditLogger, StructuredAuditLogger>();
 
         return services;
     }

@@ -30,4 +30,14 @@
             </ul>
         </div>
     </div>
+
+    <div id="meetingagent-auth-status" class="teams-config-status mt-3" role="status" hidden></div>
 </section>
+
+@section Scripts {
+    <script src="https://res.cdn.office.net/teams-js/2.34.0/js/MicrosoftTeams.min.js"></script>
+    <script src="~/js/teamsAuth.js" asp-append-version="true"></script>
+    <script>
+        window.meetingAgentAuth?.initializeAuthProbe("meetingagent-auth-status");
+    </script>
+}

@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MeetingAgent.Application\MeetingAgent.Application.csproj" />
     <ProjectReference Include="..\..\src\MeetingAgent.Domain\MeetingAgent.Domain.csproj" />
+    <ProjectReference Include="..\..\src\MeetingAgent.Infrastructure\MeetingAgent.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
