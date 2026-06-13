@@ -31,13 +31,28 @@ dotnet run --project src/MeetingAgent.Web --launch-profile https
 
 ## Build The App Package
 
-Create or reuse a single-tenant Microsoft Entra app registration for development, then generate the Teams app package:
+Before running `zip.ps1`, define a local `.env` file. The file is ignored by git,
+so it can hold machine- or tenant-specific package values such as the active dev
+tunnel URL.
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-TeamsAppPackage.ps1 `
-  -BaseUrl "https://<your-dev-tunnel-host>" `
-  -TeamsAppId "<new-guid-for-the-teams-app>" `
-  -EntraClientId "<entra-application-client-id>"
+Copy-Item .env.example .env
+notepad .env
+```
+
+Minimum `.env` contents:
+
+```text
+MEETINGAGENT_TEAMS_BASE_URL=https://<your-dev-tunnel-host>
+```
+
+Optionally set `MEETINGAGENT_TEAMS_APP_ID` if you want to reuse the same Teams
+app id across package rebuilds.
+
+Generate the Teams app package:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\zip.ps1
 ```
 
 The script creates `artifacts/teams/MeetingAgent.TeamsApp.zip`.
@@ -46,8 +61,18 @@ The rendered manifest uses:
 
 - `meetingDetailsTab` for pre-meeting configuration from meeting details.
 - `meetingSidePanel` for the in-meeting host surface.
-- `groupchat` scope for scheduled private meetings.
-- `OnlineMeeting.ReadBasic.Chat` and `OnlineMeetingTranscript.Read.Chat` as meeting-specific RSC application permissions.
+- `groupChat` scope for scheduled private meetings.
+
+The script can include preview authentication and meeting-specific RSC permission
+metadata after the matching Microsoft Entra app registration is fully configured:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\New-TeamsAppPackage.ps1 `
+  -BaseUrl "https://<your-dev-tunnel-host>" `
+  -TeamsAppId "<new-guid-for-the-teams-app>" `
+  -EntraClientId "<entra-application-client-id>" `
+  -IncludePreviewAuth
+```
 
 ## Organizer Install Flow
 
@@ -68,4 +93,4 @@ Tenant administrators may need to:
 - Review the resource-specific consent permissions in the manifest.
 - Approve the matching Entra app registration used by `webApplicationInfo`.
 
-Full Teams SSO, redirect URI setup, token validation, organizer authorization, and Graph transcript retrieval are tracked separately from this package slice.
+Full Teams SSO, redirect URI setup, token validation, organizer authorization, Graph RSC permissions, and Graph transcript retrieval are tracked separately from this package slice.

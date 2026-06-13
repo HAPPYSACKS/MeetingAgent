@@ -14,7 +14,6 @@ public class TeamsAppPackageTests
         var outputDirectory = Path.Combine(Path.GetTempPath(), "meetingagent-teams-package-" + Guid.NewGuid().ToString("N"));
         var scriptPath = Path.Combine(repoRoot, "scripts", "New-TeamsAppPackage.ps1");
         var teamsAppId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-        var entraClientId = Guid.Parse("22222222-2222-2222-2222-222222222222");
 
         try
         {
@@ -22,7 +21,6 @@ public class TeamsAppPackageTests
                 scriptPath,
                 "-BaseUrl", "https://meetingagent-web.example.devtunnels.ms",
                 "-TeamsAppId", teamsAppId.ToString(),
-                "-EntraClientId", entraClientId.ToString(),
                 "-OutputDirectory", outputDirectory);
 
             var packagePath = Path.Combine(outputDirectory, "MeetingAgent.TeamsApp.zip");
@@ -48,7 +46,7 @@ public class TeamsAppPackageTests
 
             var configurableTab = root.GetProperty("configurableTabs").EnumerateArray().Should().ContainSingle().Subject;
             configurableTab.GetProperty("configurationUrl").GetString().Should().Be("https://meetingagent-web.example.devtunnels.ms/Teams/Configure");
-            configurableTab.GetProperty("scopes").EnumerateArray().Select(scope => scope.GetString()).Should().Equal("groupchat");
+            configurableTab.GetProperty("scopes").EnumerateArray().Select(scope => scope.GetString()).Should().Equal("groupChat");
             configurableTab.GetProperty("context").EnumerateArray().Select(context => context.GetString()).Should().Equal(
                 "meetingDetailsTab",
                 "meetingSidePanel");
@@ -56,6 +54,48 @@ public class TeamsAppPackageTests
             root.TryGetProperty("bots", out _).Should().BeFalse();
             root.TryGetProperty("composeExtensions", out _).Should().BeFalse();
             root.TryGetProperty("staticTabs", out _).Should().BeFalse();
+            root.TryGetProperty("authorization", out _).Should().BeFalse();
+            root.TryGetProperty("webApplicationInfo", out _).Should().BeFalse();
+            root.GetProperty("validDomains").EnumerateArray().Select(domain => domain.GetString()).Should().Equal(
+                "meetingagent-web.example.devtunnels.ms",
+                "res.cdn.office.net");
+        }
+        finally
+        {
+            if (Directory.Exists(outputDirectory))
+            {
+                Directory.Delete(outputDirectory, recursive: true);
+            }
+        }
+    }
+
+    [Fact]
+    public void NewTeamsAppPackage_CanIncludePreviewAuthMetadata()
+    {
+        var repoRoot = FindRepoRoot();
+        var outputDirectory = Path.Combine(Path.GetTempPath(), "meetingagent-teams-package-auth-" + Guid.NewGuid().ToString("N"));
+        var scriptPath = Path.Combine(repoRoot, "scripts", "New-TeamsAppPackage.ps1");
+        var teamsAppId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        var entraClientId = Guid.Parse("22222222-2222-2222-2222-222222222222");
+
+        try
+        {
+            RunPowerShellScript(
+                scriptPath,
+                "-BaseUrl", "https://meetingagent-web.example.devtunnels.ms",
+                "-TeamsAppId", teamsAppId.ToString(),
+                "-EntraClientId", entraClientId.ToString(),
+                "-IncludePreviewAuth",
+                "-OutputDirectory", outputDirectory);
+
+            var packagePath = Path.Combine(outputDirectory, "MeetingAgent.TeamsApp.zip");
+            using var archive = ZipFile.OpenRead(packagePath);
+            var manifestEntry = archive.GetEntry("manifest.json");
+            manifestEntry.Should().NotBeNull();
+
+            using var manifestStream = manifestEntry!.Open();
+            using var manifest = JsonDocument.Parse(manifestStream);
+            var root = manifest.RootElement;
 
             var permissions = root
                 .GetProperty("authorization")
@@ -76,9 +116,6 @@ public class TeamsAppPackageTests
 
             root.GetProperty("webApplicationInfo").GetProperty("id").GetString().Should().Be(entraClientId.ToString());
             root.GetProperty("webApplicationInfo").GetProperty("resource").GetString().Should().Be($"api://meetingagent-web.example.devtunnels.ms/{entraClientId}");
-            root.GetProperty("validDomains").EnumerateArray().Select(domain => domain.GetString()).Should().Equal(
-                "meetingagent-web.example.devtunnels.ms",
-                "res.cdn.office.net");
         }
         finally
         {

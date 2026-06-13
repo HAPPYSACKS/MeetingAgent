@@ -6,8 +6,11 @@ param(
     [Parameter(Mandatory = $true)]
     [guid] $TeamsAppId,
 
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [guid] $EntraClientId,
+
+    [Parameter(Mandatory = $false)]
+    [switch] $IncludePreviewAuth,
 
     [Parameter(Mandatory = $false)]
     [string] $OutputDirectory = "artifacts/teams"
@@ -38,6 +41,10 @@ if ($baseUri.Scheme -ne "https") {
     throw "BaseUrl must use HTTPS because Teams requires secure tab URLs."
 }
 
+if ($IncludePreviewAuth -and ($null -eq $EntraClientId -or $EntraClientId -eq [guid]::Empty)) {
+    throw "EntraClientId is required when IncludePreviewAuth is set."
+}
+
 $normalizedBaseUrl = $baseUri.GetLeftPart([UriPartial]::Authority).TrimEnd("/")
 $devTunnelHost = $baseUri.Host
 
@@ -50,11 +57,19 @@ foreach ($requiredPath in @($templatePath, $colorIconPath, $outlineIconPath)) {
 New-Item -ItemType Directory -Force -Path $packageWorkDirectory | Out-Null
 
 $manifest = Get-Content -Raw -LiteralPath $templatePath
+$entraClientIdValue = if ($null -eq $EntraClientId) { "" } else { $EntraClientId.ToString() }
 $manifest = $manifest.Replace("{{BaseUrl}}", $normalizedBaseUrl)
 $manifest = $manifest.Replace("{{TeamsAppId}}", $TeamsAppId.ToString())
-$manifest = $manifest.Replace("{{EntraClientId}}", $EntraClientId.ToString())
+$manifest = $manifest.Replace("{{EntraClientId}}", $entraClientIdValue)
 $manifest = $manifest.Replace("{{DevTunnelHost}}", $devTunnelHost)
 
+$manifestObject = $manifest | ConvertFrom-Json
+if (-not $IncludePreviewAuth) {
+    $manifestObject.PSObject.Properties.Remove("authorization")
+    $manifestObject.PSObject.Properties.Remove("webApplicationInfo")
+}
+
+$manifest = $manifestObject | ConvertTo-Json -Depth 32
 $manifest | ConvertFrom-Json | Out-Null
 [System.IO.File]::WriteAllText($manifestPath, $manifest, [System.Text.UTF8Encoding]::new($false))
 Copy-Item -LiteralPath $colorIconPath -Destination (Join-Path $packageWorkDirectory "color.png") -Force
