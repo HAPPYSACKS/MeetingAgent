@@ -6,10 +6,10 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 - [x] Confirm the technical stack for the first implementation.
 - [x] Use ASP.NET Core and .NET for the custom app and backend.
-- [ ] Use a Teams meeting app as the primary in-meeting surface.
+- [x] Use a Teams meeting app as the primary in-meeting surface.
 - [ ] Use Copilot Studio as the companion conversational agent.
 - [ ] Use MCP tools to let Copilot Studio call custom backend capabilities.
-- [ ] Use single-tenant Microsoft Entra ID authentication for the first pilot.
+- [x] Use single-tenant Microsoft Entra ID authentication for the first pilot.
 - [ ] Decide the first deployment environment name, Azure subscription, tenant, and resource group.
 - [ ] Decide whether local development will use dev tunnels, ngrok, or another public callback URL strategy for Teams testing.
 - [ ] Define the minimal retention policy for meeting data, transcript text, alerts, and recaps.
@@ -66,21 +66,21 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 - [x] Configure required Teams and Graph permissions.
 - [x] Document the organizer installation flow.
 - [x] Document IT preinstall and tenant approval requirements.
-- [ ] Test adding the app to a meeting before the meeting using `Add a tab (+)`.
-- [ ] Test adding or opening the app during a meeting using `More > Add an app` or the meeting toolbar.
-- [ ] Confirm the app opens as the intended meeting side panel.
+- [x] Test adding the app to a meeting before the meeting using `Add a tab (+)`.
+- [x] Test adding or opening the app during a meeting using `More > Add an app` or the meeting toolbar.
+- [x] Confirm the app opens as the intended meeting side panel.
 
 ## 5. Authentication And Authorization
 
-- [ ] Register the app in Microsoft Entra ID.
-- [ ] Configure single-tenant authentication.
-- [ ] Configure redirect URIs for local development and hosted environments.
-- [ ] Implement Teams SSO or the selected Teams authentication flow.
+- [x] Register the app in Microsoft Entra ID.
+- [x] Configure single-tenant authentication.
+- [x] Configure redirect URIs for local development and hosted environments.
+- [x] Implement Teams SSO or the selected Teams authentication flow.
 - [ ] Validate Teams meeting context tokens on backend calls.
 - [ ] Enforce that only the organizer or authorized host can create, edit, or approve the meeting plan.
 - [ ] Enforce that only authorized host users can view facilitator alerts and recaps.
 - [ ] Add authorization checks to all meeting, agenda, alert, and recap APIs.
-- [ ] Add audit logging for sensitive actions such as agenda approval and recap access.
+- [x] Add audit logging for sensitive actions such as agenda approval and recap access.
 
 ## 6. Host Setup Experience
 
@@ -234,9 +234,9 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 17. Phase 1 Acceptance Criteria
 
-- [ ] A host can install or access the Teams meeting app.
-- [ ] A host can add the app to a Teams meeting before the meeting.
-- [ ] A host can open the app as a Teams meeting side panel during the meeting.
+- [x] A host can install or access the Teams meeting app.
+- [x] A host can add the app to a Teams meeting before the meeting.
+- [x] A host can open the app as a Teams meeting side panel during the meeting.
 - [ ] A host can enter a meeting goal and duration.
 - [ ] The system can draft an agenda.
 - [ ] The host can edit and approve the agenda.

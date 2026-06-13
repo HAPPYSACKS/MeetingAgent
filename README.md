@@ -108,4 +108,29 @@ dotnet run --project src/MeetingAgent.Web --launch-profile https
 
 Use `teams/README.md` for the full dev tunnel, package generation, organizer install, and tenant approval flow.
 
-Authentication, Teams SSO, meeting context token validation, organizer authorization, and Graph transcript retrieval are tracked as later implementation slices.
+Graph transcript retrieval is tracked as a later implementation slice.
+
+## Authentication configuration
+
+The web host has repo-side Microsoft Entra single-tenant authentication wiring for the Phase 1 pilot. Tenant app registration is still an external setup step; do not commit tenant secrets.
+
+Configure these settings through user secrets, environment variables, or deployment settings:
+
+```text
+AzureAd__Instance=https://login.microsoftonline.com/
+AzureAd__TenantId=<tenant-id>
+AzureAd__ClientId=<app-registration-client-id>
+AzureAd__Domain=<tenant-domain>
+AzureAd__CallbackPath=/signin-oidc
+AzureAd__SignedOutCallbackPath=/signout-callback-oidc
+Teams__ApplicationIdUri=api://<lowercase-dev-tunnel-or-host>/<app-registration-client-id>
+Teams__AllowedTenantId=<tenant-id>
+Teams__ValidDomains__0=<lowercase-dev-tunnel-or-host>
+```
+
+The protected API surface accepts Teams SSO bearer tokens and interactive Entra cookie sign-in. `/health`, `/api/status`, `/Privacy`, `/Terms`, and `/Teams/Configure` remain anonymous. Use `/api/auth/me` to verify the current sanitized identity and `/api/auth/meetings/{meetingId}/host-access` to verify host-only meeting access.
+
+For local SSO testing, the matching Entra app registration must expose
+`api://<dev-tunnel-host>/<client-id>`, define the `access_as_user` scope,
+preauthorize Teams desktop/mobile and web clients, and enable ID tokens under
+the Web authentication platform for fallback browser sign-in.

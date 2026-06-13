@@ -17,6 +17,10 @@ if (Test-Path -LiteralPath $envPath) {
         }
 
         $name = $line.Substring(0, $separatorIndex).Trim()
+        if (-not [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($name, "Process"))) {
+            return
+        }
+
         $value = $line.Substring($separatorIndex + 1).Trim().Trim('"').Trim("'")
         [Environment]::SetEnvironmentVariable($name, $value, "Process")
     }

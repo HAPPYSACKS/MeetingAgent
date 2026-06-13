@@ -18,4 +18,14 @@ public class StatusEndpointTests(MeetingAgentWebApplicationFactory factory) : IC
         body.Should().Contain("MeetingAgent");
         body.Should().Contain("create_agenda_draft");
     }
+
+    [Fact]
+    public async Task GetHealth_ReturnsSuccessWithoutAuthentication()
+    {
+        var client = factory.CreateClient();
+
+        var response = await client.GetAsync("/health");
+
+        response.EnsureSuccessStatusCode();
+    }
 }

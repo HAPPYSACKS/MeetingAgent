@@ -40,8 +40,8 @@ public class TeamsAppPackageTests
             using var manifest = JsonDocument.Parse(manifestStream);
             var root = manifest.RootElement;
 
-            root.GetProperty("$schema").GetString().Should().Be("https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json");
-            root.GetProperty("manifestVersion").GetString().Should().Be("1.28");
+            root.GetProperty("$schema").GetString().Should().Be("https://developer.microsoft.com/json-schemas/teams/v1.16/MicrosoftTeams.schema.json");
+            root.GetProperty("manifestVersion").GetString().Should().Be("1.16");
             root.GetProperty("id").GetString().Should().Be(teamsAppId.ToString());
 
             var configurableTab = root.GetProperty("configurableTabs").EnumerateArray().Should().ContainSingle().Subject;
@@ -97,6 +97,53 @@ public class TeamsAppPackageTests
             using var manifest = JsonDocument.Parse(manifestStream);
             var root = manifest.RootElement;
 
+            root.TryGetProperty("authorization", out _).Should().BeFalse();
+            var permissions = root
+                .GetProperty("webApplicationInfo")
+                .GetProperty("id")
+                .GetString();
+
+            permissions.Should().Be(entraClientId.ToString());
+            root.GetProperty("webApplicationInfo").GetProperty("resource").GetString().Should().Be($"api://meetingagent-web.example.devtunnels.ms/{entraClientId}");
+        }
+        finally
+        {
+            if (Directory.Exists(outputDirectory))
+            {
+                Directory.Delete(outputDirectory, recursive: true);
+            }
+        }
+    }
+
+    [Fact]
+    public void NewTeamsAppPackage_CanIncludeRscPermissionMetadata()
+    {
+        var repoRoot = FindRepoRoot();
+        var outputDirectory = Path.Combine(Path.GetTempPath(), "meetingagent-teams-package-rsc-" + Guid.NewGuid().ToString("N"));
+        var scriptPath = Path.Combine(repoRoot, "scripts", "New-TeamsAppPackage.ps1");
+        var teamsAppId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        var entraClientId = Guid.Parse("22222222-2222-2222-2222-222222222222");
+
+        try
+        {
+            RunPowerShellScript(
+                scriptPath,
+                "-BaseUrl", "https://meetingagent-web.example.devtunnels.ms",
+                "-TeamsAppId", teamsAppId.ToString(),
+                "-EntraClientId", entraClientId.ToString(),
+                "-IncludePreviewAuth",
+                "-IncludeRscPermissions",
+                "-OutputDirectory", outputDirectory);
+
+            var packagePath = Path.Combine(outputDirectory, "MeetingAgent.TeamsApp.zip");
+            using var archive = ZipFile.OpenRead(packagePath);
+            var manifestEntry = archive.GetEntry("manifest.json");
+            manifestEntry.Should().NotBeNull();
+
+            using var manifestStream = manifestEntry!.Open();
+            using var manifest = JsonDocument.Parse(manifestStream);
+            var root = manifest.RootElement;
+
             var permissions = root
                 .GetProperty("authorization")
                 .GetProperty("permissions")
@@ -113,9 +160,6 @@ public class TeamsAppPackageTests
                 new { Name = "OnlineMeeting.ReadBasic.Chat", Type = "Application" },
                 new { Name = "OnlineMeetingTranscript.Read.Chat", Type = "Application" }
             ]);
-
-            root.GetProperty("webApplicationInfo").GetProperty("id").GetString().Should().Be(entraClientId.ToString());
-            root.GetProperty("webApplicationInfo").GetProperty("resource").GetString().Should().Be($"api://meetingagent-web.example.devtunnels.ms/{entraClientId}");
         }
         finally
         {
