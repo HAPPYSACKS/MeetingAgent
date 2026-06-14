@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Diagnostics;
 using MeetingAgent.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,5 +34,50 @@ internal sealed class SqlServerTestDatabase : IAsyncDisposable
     {
         await using var dbContext = CreateContext();
         await dbContext.Database.EnsureDeletedAsync();
+    }
+
+    public static bool IsLocalDbAvailable()
+    {
+        try
+        {
+            using var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "sqllocaldb",
+                    Arguments = "i MSSQLLocalDB",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            process.WaitForExit(5000);
+
+            if (!process.HasExited)
+            {
+                try
+                {
+                    process.Kill(entireProcessTree: true);
+                }
+                catch
+                {
+                }
+
+                return false;
+            }
+
+            return process.ExitCode == 0;
+        }
+        catch (Win32Exception)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
     }
 }

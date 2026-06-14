@@ -11,7 +11,7 @@ namespace MeetingAgent.IntegrationTests.Storage;
 
 public sealed class RetentionCleanupServiceTests
 {
-    [Fact]
+    [LocalDbFact]
     public async Task RunCleanupAsync_RemovesExpiredArtifactsRecapsAndOldMeetingData()
     {
         await using var database = new SqlServerTestDatabase();

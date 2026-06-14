@@ -1,0 +1,104 @@
+@page
+@model MeetingAgent.Web.Pages.PanelModel
+@{
+    ViewData["Title"] = "Meeting Panel";
+}
+
+<section class="content-panel side-panel">
+    <div class="panel-header compact-header">
+        <p class="eyebrow">In-Meeting</p>
+        <h1>Host side panel</h1>
+        @if (Model.Meeting is not null)
+        {
+            <p>@Model.Meeting.Title</p>
+        }
+    </div>
+
+    @if (!Model.HasApprovedAgenda)
+    {
+        <div class="teams-config-status" role="status">
+            <strong>@Model.HostStatus.</strong> @Model.SuggestedIntervention
+        </div>
+        <div class="hero-actions">
+            <a class="btn btn-agent-primary" asp-page="/Setup">Open host setup</a>
+        </div>
+    }
+    else
+    {
+        <div class="panel-metrics" aria-label="Meeting pacing summary">
+            <div>
+                <span>Elapsed</span>
+                <strong>@Model.ElapsedMinutes min</strong>
+            </div>
+            <div>
+                <span>Remaining</span>
+                <strong>@Model.RemainingMinutes min</strong>
+            </div>
+            <div>
+                <span>Risk</span>
+                <strong>@Model.PacingRisk</strong>
+            </div>
+        </div>
+
+        <div class="intervention-card">
+            <p class="eyebrow">Private Host Prompt</p>
+            <p>@Model.SuggestedIntervention</p>
+        </div>
+
+        <section class="panel-alerts" aria-labelledby="panel-alerts-title">
+            <h2 id="panel-alerts-title">Private alerts</h2>
+            @if (Model.Alerts.Count == 0)
+            {
+                <div class="teams-config-status" role="status">
+                    No active pacing alerts right now.
+                </div>
+            }
+            else
+            {
+                @foreach (var alert in Model.Alerts)
+                {
+                    <article class="panel-alert">
+                        <div>
+                            <p class="eyebrow">@alert.Severity risk</p>
+                            <p>@alert.Evidence</p>
+                            <strong>@alert.Recommendation</strong>
+                        </div>
+                        <form method="post" class="panel-alert-actions">
+                            <input type="hidden" name="meetingId" value="@Model.Meeting!.Id" />
+                            <input type="hidden" name="alertId" value="@alert.Id" />
+                            <button type="submit" class="btn btn-agent-icon" asp-page-handler="DismissAlert">Dismiss</button>
+                            <button type="submit" class="btn btn-agent-icon" asp-page-handler="ResolveAlert">Acted on</button>
+                        </form>
+                    </article>
+                }
+            }
+        </section>
+
+        <section class="panel-agenda" aria-labelledby="panel-agenda-title">
+            <h2 id="panel-agenda-title">Approved agenda</h2>
+            @foreach (var item in Model.Sections)
+            {
+                <article class="panel-agenda-section @(item.IsCurrent ? "is-current" : null)">
+                    <div class="panel-agenda-time">
+                        @item.StartsAtMinute-@item.EndsAtMinute
+                    </div>
+                    <div>
+                        <h3>@item.Title</h3>
+                        <p>@item.Purpose</p>
+                        @if (!string.IsNullOrWhiteSpace(item.FacilitationNotes))
+                        {
+                            <small>@item.FacilitationNotes</small>
+                        }
+                    </div>
+                </article>
+            }
+        </section>
+    }
+</section>
+
+@section Scripts {
+    <script src="https://res.cdn.office.net/teams-js/2.34.0/js/MicrosoftTeams.min.js"></script>
+    <script>
+        window.microsoftTeams?.app?.initialize?.();
+    </script>
+}

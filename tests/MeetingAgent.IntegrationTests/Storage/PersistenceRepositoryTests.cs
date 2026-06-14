@@ -9,7 +9,7 @@ namespace MeetingAgent.IntegrationTests.Storage;
 
 public sealed class PersistenceRepositoryTests
 {
-    [Fact]
+    [LocalDbFact]
     public async Task MeetingSessionRepository_SavesAndLoadsMeetingSession()
     {
         await using var database = new SqlServerTestDatabase();
@@ -34,7 +34,7 @@ public sealed class PersistenceRepositoryTests
         }
     }
 
-    [Fact]
+    [LocalDbFact]
     public async Task AgendaPlanRepository_SavesVersionHistoryAndLoadsLatestApprovedAgenda()
     {
         await using var database = new SqlServerTestDatabase();
@@ -67,7 +67,7 @@ public sealed class PersistenceRepositoryTests
         }
     }
 
-    [Fact]
+    [LocalDbFact]
     public async Task FacilitatorAlertRepository_PreservesDismissedAndResolvedState()
     {
         await using var database = new SqlServerTestDatabase();
@@ -103,7 +103,7 @@ public sealed class PersistenceRepositoryTests
         }
     }
 
-    [Fact]
+    [LocalDbFact]
     public async Task MeetingRecapRepository_SavesDerivedInsightsAndActionItems()
     {
         await using var database = new SqlServerTestDatabase();
@@ -138,7 +138,7 @@ public sealed class PersistenceRepositoryTests
         }
     }
 
-    [Fact]
+    [LocalDbFact]
     public async Task MeetingRecapRepository_SavesUnavailableTranscriptRecapWithoutTranscriptInsights()
     {
         await using var database = new SqlServerTestDatabase();
@@ -173,7 +173,7 @@ public sealed class PersistenceRepositoryTests
         }
     }
 
-    [Fact]
+    [LocalDbFact]
     public async Task TranscriptArtifactRepository_SavesMetadataOnly()
     {
         await using var database = new SqlServerTestDatabase();

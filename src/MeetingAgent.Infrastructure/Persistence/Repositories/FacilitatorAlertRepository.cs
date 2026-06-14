@@ -35,4 +35,13 @@ public sealed class FacilitatorAlertRepository(MeetingAgentDbContext dbContext) 
 
         return records.Select(MeetingAgentPersistenceMapper.ToDomain).ToArray();
     }
+
+    public async Task<FacilitatorAlert?> GetByIdAsync(Guid alertId, CancellationToken cancellationToken = default)
+    {
+        var record = await dbContext.FacilitatorAlerts
+            .AsNoTracking()
+            .SingleOrDefaultAsync(alert => alert.Id == alertId, cancellationToken);
+
+        return record is null ? null : MeetingAgentPersistenceMapper.ToDomain(record);
+    }
 }

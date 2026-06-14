@@ -84,59 +84,59 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 
 ## 6. Host Setup Experience
 
-- [ ] Build the pre-meeting setup page or component.
-- [ ] Capture meeting goal.
-- [ ] Capture meeting duration.
-- [ ] Capture optional host notes.
+- [x] Build the pre-meeting setup page or component.
+- [x] Capture meeting goal.
+- [x] Capture meeting duration.
+- [x] Capture optional host notes.
 - [ ] Load meeting title and schedule from Teams context or Graph where available.
-- [ ] Let the host generate a draft agenda.
-- [ ] Show agenda sections with titles, purposes, and suggested durations.
-- [ ] Let the host edit agenda section titles.
-- [ ] Let the host edit agenda section durations.
-- [ ] Let the host reorder agenda sections.
-- [ ] Let the host add or remove agenda sections.
-- [ ] Let the host approve the agenda.
-- [ ] Save approved agenda versions.
-- [ ] Show clear status when an agenda is draft, approved, or missing.
+- [x] Let the host generate a draft agenda.
+- [x] Show agenda sections with titles, purposes, and suggested durations.
+- [x] Let the host edit agenda section titles.
+- [x] Let the host edit agenda section durations.
+- [x] Let the host reorder agenda sections.
+- [x] Let the host add or remove agenda sections.
+- [x] Let the host approve the agenda.
+- [x] Save approved agenda versions.
+- [x] Show clear status when an agenda is draft, approved, or missing.
 
 ## 7. Agenda Generation
 
-- [ ] Implement an agenda drafting service.
-- [ ] Accept meeting goal, duration, optional notes, and optional meeting metadata.
-- [ ] Generate a realistic agenda plan that fits inside the meeting duration.
-- [ ] Include facilitation notes that help the host keep the meeting focused.
-- [ ] Validate generated section durations before returning the plan.
+- [x] Implement an agenda drafting service.
+- [x] Accept meeting goal, duration, optional notes, and optional meeting metadata.
+- [x] Generate a realistic agenda plan that fits inside the meeting duration.
+- [x] Include facilitation notes that help the host keep the meeting focused.
+- [x] Validate generated section durations before returning the plan.
 - [ ] Add fallback behavior when the AI service fails.
-- [ ] Add tests for short meetings, long meetings, vague goals, and overly broad goals.
-- [ ] Add tests that generated section durations do not exceed total meeting duration.
+- [x] Add tests for short meetings, long meetings, vague goals, and overly broad goals.
+- [x] Add tests that generated section durations do not exceed total meeting duration.
 
 ## 8. In-Meeting Side Panel
 
-- [ ] Build the Teams side panel view.
-- [ ] Display meeting title and host-facing status.
-- [ ] Display elapsed time and remaining time.
-- [ ] Display the approved agenda.
-- [ ] Highlight the currently expected agenda section based on elapsed time.
-- [ ] Display pacing risk level.
-- [ ] Display private facilitator alerts.
-- [ ] Display suggested host interventions.
-- [ ] Let the host dismiss alerts.
-- [ ] Let the host mark alerts as acted on.
-- [ ] Handle the missing-agenda state by prompting the host to create or approve a plan.
-- [ ] Handle the meeting-not-started state.
-- [ ] Handle the meeting-ended state.
-- [ ] Keep the UI compact enough for the Teams side panel.
+- [x] Build the Teams side panel view.
+- [x] Display meeting title and host-facing status.
+- [x] Display elapsed time and remaining time.
+- [x] Display the approved agenda.
+- [x] Highlight the currently expected agenda section based on elapsed time.
+- [x] Display pacing risk level.
+- [x] Display private facilitator alerts.
+- [x] Display suggested host interventions.
+- [x] Let the host dismiss alerts.
+- [x] Let the host mark alerts as acted on.
+- [x] Handle the missing-agenda state by prompting the host to create or approve a plan.
+- [x] Handle the meeting-not-started state.
+- [x] Handle the meeting-ended state.
+- [x] Keep the UI compact enough for the Teams side panel.
 
 ## 9. Live Pacing Engine
 
-- [ ] Implement whole-meeting pacing calculations.
-- [ ] Calculate elapsed time, remaining time, and percent complete.
-- [ ] Compare elapsed time against agenda progress.
-- [ ] Generate pacing alerts when the meeting is at risk of not finishing cleanly.
-- [ ] Add default thresholds for mid-meeting, late-meeting, and endgame warnings.
-- [ ] Generate suggested recovery actions such as skip, park, summarize, or move to decision.
-- [ ] Avoid repeated duplicate alerts for the same pacing condition.
-- [ ] Add tests for meetings that are on track, behind, nearly over, and past scheduled end time.
+- [x] Implement whole-meeting pacing calculations.
+- [x] Calculate elapsed time, remaining time, and percent complete.
+- [x] Compare elapsed time against agenda progress.
+- [x] Generate pacing alerts when the meeting is at risk of not finishing cleanly.
+- [x] Add default thresholds for mid-meeting, late-meeting, and endgame warnings.
+- [x] Generate suggested recovery actions such as skip, park, summarize, or move to decision.
+- [x] Avoid repeated duplicate alerts for the same pacing condition.
+- [x] Add tests for meetings that are on track, behind, nearly over, and past scheduled end time.
 
 ## 10. Copilot Studio Companion Agent
 
@@ -237,11 +237,11 @@ This checklist turns `PLAN.md` into implementation work. The initial build targe
 - [x] A host can install or access the Teams meeting app.
 - [x] A host can add the app to a Teams meeting before the meeting.
 - [x] A host can open the app as a Teams meeting side panel during the meeting.
-- [ ] A host can enter a meeting goal and duration.
-- [ ] The system can draft an agenda.
-- [ ] The host can edit and approve the agenda.
-- [ ] The side panel can show elapsed time, remaining time, agenda context, and pacing risk.
-- [ ] The system can generate private host-facing pacing suggestions.
+- [x] A host can enter a meeting goal and duration.
+- [x] The system can draft an agenda.
+- [x] The host can edit and approve the agenda.
+- [x] The side panel can show elapsed time, remaining time, agenda context, and pacing risk.
+- [x] The system can generate private host-facing pacing suggestions.
 - [ ] The system can process a post-meeting transcript when available.
 - [ ] The system can generate a brief host recap.
 - [ ] The system handles missing or disabled transcription gracefully.

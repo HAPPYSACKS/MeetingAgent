@@ -7,37 +7,199 @@
 <section class="content-panel">
     <div class="panel-header">
         <p class="eyebrow">Pre-Meeting</p>
-        <h1>Host setup scaffold</h1>
-        <p>This starter page marks the workflow surface where the organizer will define the goal, duration, notes, and agenda draft.</p>
+        <h1>Shape the meeting before it starts</h1>
+        <p>Capture the organizer's goal, the meeting length, and any private host notes so the next agenda draft has the right constraints.</p>
     </div>
 
-    <div class="setup-grid">
-        <div class="setup-card">
-            <h2>Planned inputs</h2>
-            <ul class="status-list">
-                <li>Meeting goal</li>
-                <li>Meeting duration</li>
-                <li>Optional host notes</li>
-                <li>Teams meeting context</li>
-            </ul>
-        </div>
-        <div class="setup-card">
-            <h2>Next UI steps</h2>
-            <ul class="status-list">
-                <li>Generate draft agenda</li>
-                <li>Edit agenda sections and durations</li>
-                <li>Approve the plan for in-meeting pacing</li>
-            </ul>
-        </div>
+    <div class="setup-form-grid">
+        <form method="post" class="setup-card setup-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <input asp-for="Input.MeetingId" type="hidden" />
+            <input asp-for="Input.TeamsMeetingId" type="hidden" data-teams-context="meeting-id" />
+            <input asp-for="Input.TeamsChatId" type="hidden" data-teams-context="chat-id" />
+            <input asp-for="Input.CalendarEventId" type="hidden" data-teams-context="calendar-event-id" />
+
+            <div class="field-stack">
+                <label asp-for="Input.MeetingTitle" class="form-label"></label>
+                <input asp-for="Input.MeetingTitle" class="form-control" data-teams-context="meeting-title" />
+                <p class="form-hint">Teams meeting context can fill this in when the host opens the tab inside a scheduled meeting.</p>
+                <span asp-validation-for="Input.MeetingTitle" class="text-danger"></span>
+            </div>
+
+            <div class="field-stack">
+                <label asp-for="Input.MeetingGoal" class="form-label"></label>
+                <input asp-for="Input.MeetingGoal" class="form-control" placeholder="What does this meeting need to accomplish?" />
+                <p class="form-hint">Write the one outcome the host wants to walk away with.</p>
+                <span asp-validation-for="Input.MeetingGoal" class="text-danger"></span>
+            </div>
+
+            <div class="field-stack">
+                <label asp-for="Input.DurationMinutes" class="form-label"></label>
+                <input asp-for="Input.DurationMinutes" class="form-control" min="15" max="240" step="5" />
+                <p class="form-hint">Keep this aligned with the invite so pacing math stays honest.</p>
+                <span asp-validation-for="Input.DurationMinutes" class="text-danger"></span>
+            </div>
+
+            <div class="field-stack">
+                <label asp-for="Input.HostNotes" class="form-label"></label>
+                <textarea asp-for="Input.HostNotes" class="form-control setup-notes" placeholder="Context, risks, sensitivities, or people who need airtime."></textarea>
+                <p class="form-hint">These notes stay host-facing and will shape the draft agenda later.</p>
+                <span asp-validation-for="Input.HostNotes" class="text-danger"></span>
+            </div>
+
+            <div class="hero-actions">
+                <button type="submit" class="btn btn-agent-primary" asp-page-handler="Generate">Generate draft agenda</button>
+            </div>
+
+            @if (Model.HasDraft)
+            {
+                <section class="agenda-editor" aria-labelledby="agenda-editor-title">
+                    <div>
+                        <p class="eyebrow">Draft Agenda</p>
+                        <h2 id="agenda-editor-title">Review and tune the plan</h2>
+                    </div>
+
+                    @for (var index = 0; index < Model.Input.Sections.Count; index++)
+                    {
+                        <article class="agenda-section-editor">
+                            <div class="agenda-section-number">@(index + 1)</div>
+                            <div class="agenda-section-actions" aria-label="Section order actions">
+                                <button type="submit" class="btn btn-agent-icon" asp-page-handler="MoveSectionUp" asp-route-index="@index" formnovalidate title="Move section up">Up</button>
+                                <button type="submit" class="btn btn-agent-icon" asp-page-handler="MoveSectionDown" asp-route-index="@index" formnovalidate title="Move section down">Down</button>
+                                <button type="submit" class="btn btn-agent-icon danger" asp-page-handler="RemoveSection" asp-route-index="@index" formnovalidate title="Remove section">Remove</button>
+                            </div>
+                            <div class="field-stack">
+                                <label asp-for="Input.Sections[index].Title" class="form-label">Section title</label>
+                                <input asp-for="Input.Sections[index].Title" class="form-control" />
+                                <span asp-validation-for="Input.Sections[index].Title" class="text-danger"></span>
+                            </div>
+                            <div class="field-stack">
+                                <label asp-for="Input.Sections[index].Purpose" class="form-label">Purpose</label>
+                                <input asp-for="Input.Sections[index].Purpose" class="form-control" />
+                                <span asp-validation-for="Input.Sections[index].Purpose" class="text-danger"></span>
+                            </div>
+                            <div class="field-stack">
+                                <label asp-for="Input.Sections[index].DurationMinutes" class="form-label">Minutes</label>
+                                <input asp-for="Input.Sections[index].DurationMinutes" class="form-control" min="1" max="240" />
+                                <span asp-validation-for="Input.Sections[index].DurationMinutes" class="text-danger"></span>
+                            </div>
+                            <div class="field-stack">
+                                <label asp-for="Input.Sections[index].FacilitationNotes" class="form-label">Host note</label>
+                                <textarea asp-for="Input.Sections[index].FacilitationNotes" class="form-control agenda-note"></textarea>
+                                <span asp-validation-for="Input.Sections[index].FacilitationNotes" class="text-danger"></span>
+                            </div>
+                        </article>
+                    }
+
+                    <div class="hero-actions">
+                        <button type="submit" class="btn btn-agent-secondary" asp-page-handler="AddSection" formnovalidate>Add section</button>
+                        <button type="submit" class="btn btn-agent-secondary" asp-page-handler="Generate">Regenerate draft</button>
+                        <button type="submit" class="btn btn-agent-primary" asp-page-handler="Approve">Approve agenda</button>
+                    </div>
+                </section>
+            }
+        </form>
+
+        <aside class="setup-card setup-aside">
+            <h2>Draft preview</h2>
+            @if (Model.IsApproved)
+            {
+                <dl class="draft-preview">
+                    <div>
+                        <dt>Status</dt>
+                        <dd>Approved and saved</dd>
+                    </div>
+                    <div>
+                        <dt>Meeting</dt>
+                        <dd>@Model.Input.MeetingTitle</dd>
+                    </div>
+                    <div>
+                        <dt>Meeting ID</dt>
+                        <dd>@Model.Input.MeetingId</dd>
+                    </div>
+                </dl>
+
+                <div class="teams-config-status mt-3" role="status">
+                    @Model.StatusMessage
+                </div>
+                <div class="hero-actions">
+                    <a class="btn btn-agent-primary" asp-page="/Panel" asp-route-meetingId="@Model.Input.MeetingId">Open side panel</a>
+                </div>
+            }
+            else if (Model.HasDraft)
+            {
+                <dl class="draft-preview">
+                    <div>
+                        <dt>Status</dt>
+                        <dd>Draft ready for review</dd>
+                    </div>
+                    <div>
+                        <dt>Sections</dt>
+                        <dd>@Model.Input.Sections.Count agenda sections</dd>
+                    </div>
+                    <div>
+                        <dt>Total planned time</dt>
+                        <dd>@Model.Input.Sections.Sum(section => section.DurationMinutes) of @Model.Input.DurationMinutes minutes</dd>
+                    </div>
+                </dl>
+
+                <div class="teams-config-status mt-3" role="status">
+                    @Model.StatusMessage
+                </div>
+            }
+            else
+            {
+                <ul class="status-list">
+                    <li>Meeting goal</li>
+                    <li>Meeting duration</li>
+                    <li>Optional host notes</li>
+                    <li>Teams meeting context</li>
+                </ul>
+
+                <hr />
+
+                <h3>Next UI steps</h3>
+                <ul class="status-list">
+                    <li>Generate a draft agenda</li>
+                    <li>Edit agenda sections and durations</li>
+                    <li>Approve the plan for in-meeting pacing</li>
+                </ul>
+            }
+        </aside>
     </div>
 
     <div id="meetingagent-auth-status" class="teams-config-status mt-3" role="status" hidden></div>
 </section>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="https://res.cdn.office.net/teams-js/2.34.0/js/MicrosoftTeams.min.js"></script>
     <script src="~/js/teamsAuth.js" asp-append-version="true"></script>
     <script>
         window.meetingAgentAuth?.initializeAuthProbe("meetingagent-auth-status");
+
+        (async () => {
+            if (!window.microsoftTeams?.app) {
+                return;
+            }
+
+            try {
+                await window.microsoftTeams.app.initialize();
+                const context = await window.microsoftTeams.app.getContext();
+                const setValue = (selector, value) => {
+                    const element = document.querySelector(selector);
+                    if (element && value) {
+                        element.value = value;
+                    }
+                };
+
+                setValue("[data-teams-context='meeting-id']", context.meeting?.id);
+                setValue("[data-teams-context='chat-id']", context.chat?.id);
+                setValue("[data-teams-context='calendar-event-id']", context.calendar?.id);
+                setValue("[data-teams-context='meeting-title']", context.meeting?.title);
+            } catch (error) {
+                console.warn("MeetingAgent could not read Teams meeting context.", error);
+            }
+        })();
     </script>
 }

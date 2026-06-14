@@ -13,6 +13,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddRetentionCleanupWorker();
 builder.Services.AddMeetingAgentAuthentication(builder.Configuration);
 builder.Services.AddHealthChecks();
+builder.Services.AddAntiforgery(options => options.SuppressXFrameOptionsHeader = true);
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
